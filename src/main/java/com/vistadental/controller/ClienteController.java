@@ -1,12 +1,12 @@
-package com.tienda.controller;
+package com.vistadental.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
-import com.tienda.service.ClienteService;
-import com.tienda.domain.Cliente;
+import com.vistadental.domain.Cliente;
+import com.vistadental.service.ClienteService;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller

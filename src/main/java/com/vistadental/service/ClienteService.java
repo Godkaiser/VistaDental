@@ -1,6 +1,6 @@
-package com.tienda.service;
+package com.vistadental.service;
 
-import com.tienda.domain.Cliente;
+import com.vistadental.domain.Cliente;
 import java.util.List;
 
 
