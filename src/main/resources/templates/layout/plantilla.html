@@ -2,22 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>TechShop</title>
+        <title>Vista Dental</title>
         <meta charset="UTF-8"/>        
     </head>
     <body>
         <header th:fragment="header" class="header">
             <nav class="nav"> <!-- Esta etiqueta es para indicarle al browser que es posiblemente un menú -->
-                <a th:href="@{/}" class="logo nav-link">TechShop</a>
+                <a th:href="@{/}" class="logo nav-link">Vista Dental</a>
                 <ul class="nav-menu">
                     <li class="nav-menu-item">
-                        <a th:href="@{/cliente/listado}" class="nav-menu-link nav-link">Clientes</a>
+                        <a th:href="@{/paciente/listado}" class="nav-menu-link nav-link">Pacientes</a>
                     </li>
                     <li class="nav-menu-item">
-                        <a th:href="@{/categoria/listado}" class="nav-menu-link nav-link">Categorias</a>
+                        <a th:href="@{/dentista/listado}" class="nav-menu-link nav-link">Dentistas</a>
                     </li>
                     <li class="nav-menu-item">
-                        <a th:href="@{/articulo/listado}" class="nav-menu-link nav-link">Articulos</a>
+                        <a th:href="@{/cita/listado}" class="nav-menu-link nav-link">Citas</a>
                     </li>
                 </ul>
             </nav>

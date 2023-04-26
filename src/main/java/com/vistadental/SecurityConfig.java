@@ -1,44 +1,63 @@
 package com.vistadental;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication()
-                .withUser("sebastian")
-                    .password("{noop}123")
-                    .roles("ADMIN","VENDEDOR","USER")
-                .and()
-                .withUser("david")
-                    .password("{noop}456")
-                    .roles("VENDEDOR","USER");
-                
+public class SecurityConfig {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception {
+        build.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.authorizeRequests()
-                .antMatchers("/paciente/nuevo",        "/paciente/guardar", 
-                             "/paciente/modificar/**", "/paciente/eliminar/**")
-                    .hasRole("ADMIN")
-                .antMatchers("/paciente/listado")
-                    .hasAnyRole("ADMIN","VENDEDOR")                
-                .antMatchers("/paciente/**")
-                    .permitAll()
-                .and()
-                    .formLogin()
-                    .loginPage("/login")
-                .and()
-                    .exceptionHandling().accessDeniedPage("/errores/403");
-    } 
 
-    
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception {
+        http
+                .authorizeHttpRequests((requests) -> requests
+                .requestMatchers(
+                                 "/",
+                                 "/index",
+                                 "/errores/**",
+                                 "webjars/**").permitAll()
+                        .requestMatchers(
+                                 "/cita/nuevo",
+                                 "/cita/guardar",
+                                 "/cita/modificar/**",
+                                  "/cita/eliminar/**",
+                                  "/dentista/nuevo",
+                                  "/dentista/guardar",
+                                  "/dentista/modificar/**",
+                                  "/dentista/eliminar/**",
+                                  "/paciente/nuevo",
+                                  "/paciente/guardar",
+                                  "/paciente/modificar/**",
+                                  "/paciente/eliminar/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers(
+                                "/cita/listado/",
+                                "/dentista/listado/",
+                                "/paciente/listado/")
+                        .hasAnyRole("ADMIN", "VENDEDOR")
+                )
+                .formLogin((form) -> form
+                .loginPage("/login")
+                .permitAll())
+                .logout((logout) -> logout.permitAll())
+                .exceptionHandling()
+                .accessDeniedPage("/errores/403");
+        return http.build();
+             
+    }
 }
-

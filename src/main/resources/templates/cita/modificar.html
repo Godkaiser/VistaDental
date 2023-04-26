@@ -9,13 +9,13 @@
     <body>
         <header th:replace="layout/plantilla :: header"/>
         <div class="contenido">
-            <h2>Datos del Paciente</h2>
-            <a th:href="@{/paciente/listado}">Regresar</a>
+            <h2>Datos de la Cita</h2>
+            <a th:href="@{/cita/listado}">Regresar</a>
             <br/><br/>
-            <form th:action="@{/paciente/guardar}"
+            <form th:action="@{/cita/guardar}"
                   method="post"
-                  th:object="${paciente}">
-                <input type="hidden" name="idPaciente" th:field="*{idPaciente}"/>
+                  th:object="${cita}">
+                <input type="hidden" name="idCita" th:field="*{idCita}"/>
                 <label for="nombre">Nombre:</label>
                 <input type="text" name="nombre" th:field="*{nombre}"/>
                 <br/>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Vista Dental</title>
+        <meta charset="UTF-8">        
+            <link href="/styles/menu.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <header th:replace="layout/plantilla :: header"/>
+        <div class="contenido">
+            <h2>Listado de Citas</h2>
+            <a th:href="@{/cita/nuevo}">Nuevo Cita</a>
+            <div th:if="${citas != null and !citas.empty}"></div>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Limite</th>
+                        <th>Eliminar</th>
+                        <th>Modificar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cita : ${citas}"> 
+                        <td th:text="${cita.nombre}"></td>
+                        <td th:text="${cita.apellidos}"></td>
+                        <td th:text="${cita.correo}"></td>
+                        <td th:text="${cita.telefono}"></td>
+                        <td th:text="${#numbers.formatDecimal (cita.credito.limite,3,2)}" 
+                            style="text-align: right"></td>
+                        <td><a th:href="@{/cita/eliminar} +${cita.idCita}">Eliminar</a></td>
+                        <td><a th:href="@{/cita/modificar} +${cita.idCita}">Modificar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${citas == null or citas.empty}">
+                La lista de citas está vacía
+            </div>
+        </div>
+        <footer th:replace="layout/plantilla :: footer"/>
+    </body>
+</html>

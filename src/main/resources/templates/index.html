@@ -1,35 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>VistaDental</title>
-        <meta charset="UTF-8">        
-        <link href="/styles/menu.css" rel="stylesheet" type="text/css"/>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://wwww.thymeleaf.org" 
+      xmlns:sec="http://thymeleaft.org/extras/spring-security">
+    <head th:replace="layout/plantilla :: head">
+        <title>Vista Dental</title>
     </head>
     <body>
         <header th:replace="layout/plantilla :: header"/>
-        <div class="contenido">
-            <h2>Nuestros Articulos</h2>            
-            <div th:if="${articulos != null and !articulos.empty}">
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Descripcion</th>
-                            <th>Precio</th>                                                        
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="articulo : ${articulos}"> 
-                            <td th:text="${articulo.descripcion}"></td>
-                            <td th:text="${#numbers.formatDecimal(articulo.precio,3,2)}" style="text-align: right"></td>
-                            <td><a th:href="@{/carrito/agregar/} +${articulo.idArticulo}">Agregar</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div th:if="${articulos == null or articulos.empty}">
-                La lista de articulos está vacía
-            </div>
-        </div>
+        
         <footer th:replace="layout/plantilla :: footer"/>
     </body>
 </html>

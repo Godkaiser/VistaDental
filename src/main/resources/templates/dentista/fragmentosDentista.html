@@ -14,7 +14,7 @@
                             type="button" 
                             class="btn btn-primary btn-block" 
                             data-bs-toggle="modal" 
-                            data-bs-target="#agregarPaciente">
+                            data-bs-target="#agregarDentista">
                             <i class="fas fa-plus"></i> [[#{accion.agregar}]]
                         </button>
                     </div>
@@ -23,31 +23,31 @@
         </section>
 
 
-        <section th:fragment="agregarPaciente">
-            <div id="agregarPaciente" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <section th:fragment="agregarDentista">
+            <div id="agregarDentista" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-info text-white">
-                            <h5 class="modal-title" th:text="#{accion.agregar}">Agregar Paciente</h5>
+                            <h5 class="modal-title" th:text="#{accion.agregar}">Agregar Dentista</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div> 
-                        <form th:action="@{/paciente/guardar}" th:object="${paciente}"
+                        <form th:action="@{/dentista/guardar}" th:object="${dentista}"
                               method="POST" class="was-validated">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="idPaciente" th:text="#{paciente.idPaciente}">Id</label>
-                                    <input type="number" class="form-control" name="idPaciente" required="true"/>
+                                    <label for="idDentista" th:text="#{dentista.idDentista}">Id</label>
+                                    <input type="number" class="form-control" name="idDentista" required="true"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="descripcion" th:text="#{paciente.descripcion}">descripcion</label>
+                                    <label for="descripcion" th:text="#{dentista.descripcion}">descripcion</label>
                                     <input type="text" class="form-control" name="descripcion" required="true"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="cilindros" th:text="#{paciente.cilindros}">Cilindros</label>
+                                    <label for="cilindros" th:text="#{dentista.cilindros}">Cilindros</label>
                                     <input type="number" class="form-control" name="cilindros" required="true"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="modelo" th:text="#{paciente.modelo}">Modelo</label>
+                                    <label for="modelo" th:text="#{dentista.modelo}">Modelo</label>
                                     <input type="date" class="form-control" name="modelo"/>
                                 </div>                                
                             </div>
@@ -60,40 +60,40 @@
             </div>
         </section>        
 
-        <section th:fragment="listadoPacientes" id="pacientes">
+        <section th:fragment="listadoDentistas" id="dentistas">
             <div class="container">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="card">
                             <div class="card-header">
-                                <h4>[[#{paciente.titulo}]]</h4>
+                                <h4>[[#{dentista.titulo}]]</h4>
                             </div>
-                            <div th:if="${pacientes != null and !pacientes.empty}">
+                            <div th:if="${dentistas != null and !dentistas.empty}">
                                 <table class="table table-stryped">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th th:text="#{paciente.idPaciente}">Id</th>
-                                            <th th:text="#{paciente.descripcion}">Descripcion</th>
-                                            <th th:text="#{paciente.cilindros}">Cilindros</th>
-                                            <th th:text="#{paciente.modelo}">Modelo</th>
+                                            <th th:text="#{dentista.idDentista}">Id</th>
+                                            <th th:text="#{dentista.descripcion}">Descripcion</th>
+                                            <th th:text="#{dentista.cilindros}">Cilindros</th>
+                                            <th th:text="#{dentista.modelo}">Modelo</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="paciente : ${pacientes}">
-                                            <td>[[${paciente.idPaciente}]]</td>
-                                            <td>[[${paciente.descripcion}]]</td>
-                                            <td>[[${paciente.cilindros}]]</td>
-                                            <td>[[${paciente.modelo}]]</td>
+                                        <tr th:each="dentista : ${dentistas}">
+                                            <td>[[${dentista.idDentista}]]</td>
+                                            <td>[[${dentista.descripcion}]]</td>
+                                            <td>[[${dentista.cilindros}]]</td>
+                                            <td>[[${dentista.modelo}]]</td>
                                             <td>
-                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/paciente/eliminar/}+${paciente.idPaciente}"
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/dentista/eliminar/}+${dentista.idDentista}"
                                                    class="btn btn-danger">
                                                     <i class="fas fa-trash-can"></i> [[#{accion.eliminar}]]
                                                 </a>
                                             </td>
                                             <td>
-                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/paciente/modificar/}+${paciente.idPaciente}"
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/dentista/modificar/}+${dentista.idDentista}"
                                                    class="btn btn-success">
                                                     <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]
                                                 </a>
@@ -102,17 +102,17 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="text-center p-2" th:if="${pacientes == null or pacientes.empty}">
-                                <span th:text="#{paciente.no_mostrar}">Lista vacía</span>
+                            <div class="text-center p-2" th:if="${dentistas == null or dentistas.empty}">
+                                <span th:text="#{dentista.no_mostrar}">Lista vacía</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">                        
                         <div class="card text-center bg-success text-white mb-3">
                             <div class="card-body">
-                                <h3 th:text="#{paciente.totalPacientes}">Total Pacientes</h3>
+                                <h3 th:text="#{dentista.totalDentistas}">Total Dentistas</h3>
                                 <h4 class="fs-2">
-                                    <i class="fas fa-users"></i> [[${totalPacientes}]]
+                                    <i class="fas fa-users"></i> [[${totalDentistas}]]
                                 </h4>
                             </div>
                         </div>
@@ -122,13 +122,13 @@
             </div>
         </section>
 
-        <section th:fragment="editarPaciente">            
+        <section th:fragment="editarDentista">            
             <form method="POST"
-                  th:action="@{/paciente/guardar}"
-                  th:object="${paciente}"
+                  th:action="@{/dentista/guardar}"
+                  th:object="${dentista}"
                   class="was-validated">
-                <input type="hidden" name="idPaciente" th:field="*{idPaciente}"/> 
-                <section th:replace="paciente/fragmentosPaciente :: botonesEditar"/> 
+                <input type="hidden" name="idDentista" th:field="*{idDentista}"/> 
+                <section th:replace="dentista/fragmentosDentista :: botonesEditar"/> 
                 <div id="details"> 
                     <div class="container"><div class="row">
                             <div class="col"><div class="card">
@@ -137,15 +137,15 @@
                                     </div>
                                     <div class="card-body">                                        
                                         <div class="form-group">
-                                            <label for="descripcion" th:text="#{paciente.descripcion}">Descripcion: </label>
+                                            <label for="descripcion" th:text="#{dentista.descripcion}">Descripcion: </label>
                                             <input type="text" class="form-control" name="descripcion" th:field="*{descripcion}"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="cilindros" th:text="#{paciente.cilindros}">Cilindros: </label>
+                                            <label for="cilindros" th:text="#{dentista.cilindros}">Cilindros: </label>
                                             <input type="number"  class="form-control" name="cilindros" th:field="*{cilindros}"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="modelo" th:text="#{paciente.modelo}">Modelo: </label>
+                                            <label for="modelo" th:text="#{dentista.modelo}">Modelo: </label>
                                             <input type="date"  class="form-control" name="modelo" th:field="*{modelo}"/>
                                         </div>                                        
                                     </div>
@@ -162,7 +162,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="d-grid col-md-2 mx-auto">
-                            <a th:href="@{/paciente/listado}" class="btn btn-ligth btn-block">
+                            <a th:href="@{/dentista/listado}" class="btn btn-ligth btn-block">
                                 <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
                             </a>
                         </div>
@@ -172,7 +172,7 @@
                             </button>
                         </div>
                         <div class="d-grid col-md-2 mx-auto">
-                            <a th:href="@{/paciente/eliminar/}+${paciente.idPaciente}"
+                            <a th:href="@{/dentista/eliminar/}+${dentista.idDentista}"
                                class="btn btn-danger btn-block">
                                 <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
                             </a>
