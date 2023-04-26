@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://wwww.thymeleaf.org" 
+      xmlns:sec="http://thymeleaft.org/extras/spring-security">
+    <head th:replace="layout/plantilla :: head">
+        <title>Examen 2</title>
+    </head>
+    <body>
+        <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3" sec:authorize="hasRole('ROLE_ADMIN')">   
+                        <button 
+                            type="button" 
+                            class="btn btn-primary btn-block" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#agregarPaciente">
+                            <i class="fas fa-plus"></i> [[#{accion.agregar}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section th:fragment="agregarPaciente">
+            <div id="agregarPaciente" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title" th:text="#{accion.agregar}">Agregar Paciente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/paciente/guardar}" th:object="${paciente}"
+                              method="POST" class="was-validated">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="idPaciente" th:text="#{paciente.idPaciente}">Id</label>
+                                    <input type="number" class="form-control" name="idPaciente" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="descripcion" th:text="#{paciente.descripcion}">descripcion</label>
+                                    <input type="text" class="form-control" name="descripcion" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cilindros" th:text="#{paciente.cilindros}">Cilindros</label>
+                                    <input type="number" class="form-control" name="cilindros" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modelo" th:text="#{paciente.modelo}">Modelo</label>
+                                    <input type="date" class="form-control" name="modelo"/>
+                                </div>                                
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit" th:text="#{accion.guardar}">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>        
+
+        <section th:fragment="listadoPacientes" id="pacientes">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>[[#{paciente.titulo}]]</h4>
+                            </div>
+                            <div th:if="${pacientes != null and !pacientes.empty}">
+                                <table class="table table-stryped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th th:text="#{paciente.idPaciente}">Id</th>
+                                            <th th:text="#{paciente.descripcion}">Descripcion</th>
+                                            <th th:text="#{paciente.cilindros}">Cilindros</th>
+                                            <th th:text="#{paciente.modelo}">Modelo</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="paciente : ${pacientes}">
+                                            <td>[[${paciente.idPaciente}]]</td>
+                                            <td>[[${paciente.descripcion}]]</td>
+                                            <td>[[${paciente.cilindros}]]</td>
+                                            <td>[[${paciente.modelo}]]</td>
+                                            <td>
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/paciente/eliminar/}+${paciente.idPaciente}"
+                                                   class="btn btn-danger">
+                                                    <i class="fas fa-trash-can"></i> [[#{accion.eliminar}]]
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/paciente/modificar/}+${paciente.idPaciente}"
+                                                   class="btn btn-success">
+                                                    <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${pacientes == null or pacientes.empty}">
+                                <span th:text="#{paciente.no_mostrar}">Lista vacía</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">                        
+                        <div class="card text-center bg-success text-white mb-3">
+                            <div class="card-body">
+                                <h3 th:text="#{paciente.totalPacientes}">Total Pacientes</h3>
+                                <h4 class="fs-2">
+                                    <i class="fas fa-users"></i> [[${totalPacientes}]]
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section th:fragment="editarPaciente">            
+            <form method="POST"
+                  th:action="@{/paciente/guardar}"
+                  th:object="${paciente}"
+                  class="was-validated">
+                <input type="hidden" name="idPaciente" th:field="*{idPaciente}"/> 
+                <section th:replace="paciente/fragmentosPaciente :: botonesEditar"/> 
+                <div id="details"> 
+                    <div class="container"><div class="row">
+                            <div class="col"><div class="card">
+                                    <div class="card-header">
+                                        <h4>[[#{accion.actualizar}]]</h4>
+                                    </div>
+                                    <div class="card-body">                                        
+                                        <div class="form-group">
+                                            <label for="descripcion" th:text="#{paciente.descripcion}">Descripcion: </label>
+                                            <input type="text" class="form-control" name="descripcion" th:field="*{descripcion}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cilindros" th:text="#{paciente.cilindros}">Cilindros: </label>
+                                            <input type="number"  class="form-control" name="cilindros" th:field="*{cilindros}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modelo" th:text="#{paciente.modelo}">Modelo: </label>
+                                            <input type="date"  class="form-control" name="modelo" th:field="*{modelo}"/>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section th:fragment="botonesEditar">
+            <div id="actions" class="py-4 mb-4 bg-light">
+                <div class="container">
+                    <div class="row">
+                        <div class="d-grid col-md-2 mx-auto">
+                            <a th:href="@{/paciente/listado}" class="btn btn-ligth btn-block">
+                                <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+                            </a>
+                        </div>
+                        <div class="d-grid col-md-2 mx-auto">
+                            <button type="submit" class="btn btn-success btn-block">
+                                <i class="fas fa-check"></i> [[#{accion.guardar}]]
+                            </button>
+                        </div>
+                        <div class="d-grid col-md-2 mx-auto">
+                            <a th:href="@{/paciente/eliminar/}+${paciente.idPaciente}"
+                               class="btn btn-danger btn-block">
+                                <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

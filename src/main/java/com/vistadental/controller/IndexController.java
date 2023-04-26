@@ -1,6 +1,6 @@
 package com.vistadental.controller;
 
-import com.vistadental.service.ClienteService;
+import com.vistadental.service.PacienteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +12,11 @@ import org.springframework.ui.Model;
 public class IndexController {
 
 @Autowired
-    private ClienteService clienteservice;
+    private PacienteService pacienteservice;
     @GetMapping("/")
     public String inicio(Model model) {
-        var clientes = clienteservice.getClientes();
-        model.addAttribute("clientes", clientes);
+        var pacientes = pacienteservice.getPacientes();
+        model.addAttribute("pacientes", pacientes);
         return "index";
     }
 
