@@ -1,7 +1,7 @@
 package com.vistadental.domain;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Data
